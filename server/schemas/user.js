@@ -17,10 +17,12 @@ const typeDefs = `
     users: [User]
     userById(id: ID!): User
   }
+
   input LoginInput {
     email: String!
     password: String!
   }
+  
   input NewUser {
     id: Int
     name: String
