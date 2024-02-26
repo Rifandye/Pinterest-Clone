@@ -1,6 +1,7 @@
 const { ObjectId } = require("bson");
 const { database } = require("../config/mongodb");
-const { hashPass } = require("../helpers/bcrypt");
+const { hashPass, comparePass } = require("../helpers/bcrypt");
+const { signToken } = require("../helpers/jwt");
 
 module.exports = class User {
   //! nyoba findAll
@@ -37,5 +38,19 @@ module.exports = class User {
       ...newUser,
     };
     return resultUser;
+  }
+
+  static async login(LoginInput) {
+    const userCollection = database.collection("Users");
+
+    const user = await userCollection.findOne({ email: LoginInput.email });
+
+    const comparedPass = comparePass(LoginInput.password, user.password);
+
+    const access_token = signToken({ id: user._id });
+
+    console.log(access_token);
+
+    return { access_token };
   }
 };
