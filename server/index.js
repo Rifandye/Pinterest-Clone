@@ -1,78 +1,13 @@
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
-
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-    images: [
-      {
-        name: "Front Cover",
-        url: "image.jpeg",
-      },
-    ],
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-    images: [
-      {
-        name: "Front Cover",
-        url: "image.jpeg",
-      },
-    ],
-  },
-];
-
-const categories = [
-  {
-    name: "Health",
-  },
-  {
-    name: "Education",
-  },
-  {
-    name: "Programming",
-  },
-];
-
-const typeDefs = `
-  type Book {
-    title: String
-    author: String
-    images: [Image]
-  }
-  
-  type Image {
-    name: String
-    url: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-
-  type Category {
-    name: String
-  }
-
-  type Query {
-    categories: [Category]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    books: () => books,
-    categories: () => {
-      return categories;
-    },
-  },
-};
+const {
+  typeDefs: userTypeDefs,
+  resolvers: userResolvers,
+} = require("./schemas/user");
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: [userTypeDefs],
+  resolvers: [userResolvers],
 });
 
 //! fomat running server menggunakan common js
