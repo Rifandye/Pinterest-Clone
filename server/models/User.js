@@ -1,5 +1,6 @@
 const { ObjectId } = require("bson");
 const { database } = require("../config/mongodb");
+const { hashPass } = require("../helpers/bcrypt");
 
 module.exports = class User {
   //! nyoba findAll
@@ -24,7 +25,12 @@ module.exports = class User {
 
   static async register(newUser) {
     const userCollection = database.collection("Users");
+
+    const hashedPass = hashPass(newUser.password);
+    newUser.password = hashedPass;
+
     const result = await userCollection.insertOne(newUser);
+
     console.log(result, "<<<< Result");
     let resultUser = {
       id: result.insertedId,
