@@ -10,4 +10,25 @@ module.exports = class Post {
       throw error;
     }
   }
+
+  static async createPost(newPost) {
+    try {
+      const handlePostDate = {
+        ...newPost,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+      const postCollection = database.collection("Posts");
+      const result = await postCollection.insertOne(handlePostDate);
+
+      console.log(result, "<<< Result post");
+      let resultPost = {
+        id: result.insertedId,
+        ...handlePostDate,
+      };
+      return resultPost;
+    } catch (error) {
+      throw error;
+    }
+  }
 };

@@ -30,6 +30,20 @@ const typeDefs = `
     posts: [Post]
   }
 
+  input NewPost {
+    id: ID
+    content: String
+    tags: String
+    imgUrl: String
+    authorId: ID
+    createAt: String
+    updatedAt: String
+  } 
+
+  type Mutation {
+    addPost(newPost: NewPost): Post
+  }
+
 `;
 
 const resolvers = {
@@ -44,7 +58,17 @@ const resolvers = {
     },
   },
 
-  Mutation: {},
+  Mutation: {
+    addPost: async (_, args) => {
+      try {
+        const newPost = { ...args.newPost };
+        const post = await Post.createPost(newPost);
+        return post;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
 };
 
 module.exports = { typeDefs, resolvers };
