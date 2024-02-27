@@ -5,7 +5,10 @@ module.exports = class Post {
   static async findAllPost() {
     try {
       const postCollection = database.collection("Posts");
-      const posts = await postCollection.find().toArray();
+      const option = {
+        sort: { createdAt: -1 },
+      };
+      const posts = await postCollection.find({}, option).toArray();
       return posts;
     } catch (error) {
       throw error;
