@@ -47,7 +47,11 @@ module.exports = class User {
 
     const comparedPass = comparePass(LoginInput.password, user.password);
 
-    const access_token = signToken({ id: user._id });
+    const access_token = signToken({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+    });
 
     console.log(access_token);
 

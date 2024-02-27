@@ -37,20 +37,21 @@ const typeDefs = `
     tags: String
     imgUrl: String
     authorId: ID
-    createAt: String
+    createdt: String
     updatedAt: String
   }
 
   input NewComment {
+    postId: ID!
     content: String
     username: String
-    createAt: String
+    createdAt: String
     updatedAt: String
   }
 
   input NewLike {
     username: String
-    createAt: String
+    createdAt: String
     updatedAt: String
   }
 
@@ -95,6 +96,18 @@ const resolvers = {
         const newPost = { ...args.newPost, authorId: user.id };
         const post = await Post.createPost(newPost);
         return post;
+      } catch (err) {
+        throw err;
+      }
+    },
+    addComment: async (_, args, contextValue) => {
+      try {
+        const user = contextValue.auth();
+
+        const newComment = { ...args.newComment, username: user.username };
+
+        const comment = await Post.addComment(newComment);
+        return comment;
       } catch (err) {
         throw err;
       }

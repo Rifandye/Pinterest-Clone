@@ -41,4 +41,29 @@ module.exports = class Post {
       throw error;
     }
   }
+
+  static async addComment(newCommemt) {
+    try {
+      const { postId, ...commentData } = newCommemt;
+      const handleCommentDate = {
+        ...commentData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const postCollection = database.collection("Posts");
+
+      const result = await postCollection.updateOne(
+        { _id: new ObjectId(postId) },
+        { $push: { comments: handleCommentDate } }
+      );
+
+      let resultComment = {
+        ...handleCommentDate,
+      };
+
+      return resultComment;
+    } catch (error) {
+      throw error;
+    }
+  }
 };
