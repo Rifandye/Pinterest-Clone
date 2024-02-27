@@ -12,9 +12,14 @@ const {
   resolvers: postResolvers,
 } = require("./schemas/post");
 
+const {
+  typeDefs: followTypeDefs,
+  resolvers: followResolvers,
+} = require("./schemas/follow");
+
 const server = new ApolloServer({
-  typeDefs: [userTypeDefs, postTypeDefs],
-  resolvers: [userResolvers, postResolvers],
+  typeDefs: [userTypeDefs, postTypeDefs, followTypeDefs],
+  resolvers: [userResolvers, postResolvers, followResolvers],
 });
 
 const { verifyToken } = require("./helpers/jwt");
