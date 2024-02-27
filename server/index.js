@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const {
@@ -15,9 +17,27 @@ const server = new ApolloServer({
   resolvers: [userResolvers, postResolvers],
 });
 
+const { verifyToken } = require("./helpers/jwt");
+const { ObjectId } = require("mongodb");
+
 //! fomat running server menggunakan common js
+//! ada logic authentication
 startStandaloneServer(server, {
   listen: { port: 3000 },
+  context: async ({ req }) => {
+    return {
+      auth: () => {
+        const auth = req.headers.authorization;
+
+        if (!auth) throw new Error("Authentication Failed");
+
+        const token = auth.split(" ")[1];
+        const decoded = verifyToken(token);
+        decoded.id = new ObjectId(String(decoded.id));
+        return decoded;
+      },
+    };
+  },
 }).then(({ url }) => {
   console.log(`🚀  Server ready at: ${url}`);
 });

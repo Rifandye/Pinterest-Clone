@@ -25,8 +25,8 @@ module.exports = class Post {
     try {
       const handlePostDate = {
         ...newPost,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
       const postCollection = database.collection("Posts");
       const result = await postCollection.insertOne(handlePostDate);

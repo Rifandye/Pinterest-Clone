@@ -39,18 +39,36 @@ const typeDefs = `
     authorId: ID
     createAt: String
     updatedAt: String
-  } 
+  }
+
+  input NewComment {
+    content: String
+    username: String
+    createAt: String
+    updatedAt: String
+  }
+
+  input NewLike {
+    username: String
+    createAt: String
+    updatedAt: String
+  }
 
   type Mutation {
     addPost(newPost: NewPost): Post
+    addComment(newComment: NewComment): Comment
+    addLike(newLike: NewLike): Like
   }
 
 `;
 
 const resolvers = {
   Query: {
-    posts: async () => {
+    posts: async (_, __, contextValue) => {
       try {
+        console.log(contextValue, "<<< context value");
+        const user = contextValue.auth();
+        console.log(user, "<<< hasil decode");
         const posts = await Post.findAllPost();
         return posts;
       } catch (err) {
@@ -71,9 +89,10 @@ const resolvers = {
   },
 
   Mutation: {
-    addPost: async (_, args) => {
+    addPost: async (_, args, contextValue) => {
       try {
-        const newPost = { ...args.newPost };
+        const user = contextValue.auth();
+        const newPost = { ...args.newPost, authorId: user.id };
         const post = await Post.createPost(newPost);
         return post;
       } catch (err) {
