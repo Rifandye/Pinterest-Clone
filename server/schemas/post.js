@@ -50,6 +50,7 @@ const typeDefs = `
   }
 
   input NewLike {
+    postId: ID!
     username: String
     createdAt: String
     updatedAt: String
@@ -108,6 +109,18 @@ const resolvers = {
 
         const comment = await Post.addComment(newComment);
         return comment;
+      } catch (err) {
+        throw err;
+      }
+    },
+    addLike: async (_, args, contextValue) => {
+      try {
+        const user = contextValue.auth();
+
+        const newLike = { ...args.newLike, username: user.username };
+
+        const like = await Post.addLike(newLike);
+        return like;
       } catch (err) {
         throw err;
       }

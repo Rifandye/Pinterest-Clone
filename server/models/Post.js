@@ -66,4 +66,31 @@ module.exports = class Post {
       throw error;
     }
   }
+
+  static async addLike(newLike) {
+    try {
+      const { postId, ...likeData } = newLike;
+      console.log(likeData, "<<< like data");
+      const handleLikeData = {
+        ...likeData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      const postCollection = database.collection("Posts");
+
+      const result = await postCollection.updateOne(
+        { _id: new ObjectId(postId) },
+        { $addToSet: { likes: handleLikeData } }
+      );
+
+      let resultLike = {
+        ...handleLikeData,
+      };
+
+      return resultLike;
+    } catch (error) {
+      throw error;
+    }
+  }
 };
