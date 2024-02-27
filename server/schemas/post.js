@@ -28,6 +28,7 @@ const typeDefs = `
 
   type Query {
     posts: [Post]
+    postById(id: ID!): Post
   }
 
   input NewPost {
@@ -52,6 +53,17 @@ const resolvers = {
       try {
         const posts = await Post.findAllPost();
         return posts;
+      } catch (err) {
+        throw err;
+      }
+    },
+
+    postById: async (_, args) => {
+      try {
+        const { id } = args;
+        console.log(id);
+        const post = await Post.findPostById(id);
+        return post;
       } catch (err) {
         throw err;
       }

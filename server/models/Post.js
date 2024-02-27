@@ -1,4 +1,5 @@
 const { database } = require("../config/mongodb");
+const { ObjectId } = require("bson");
 
 module.exports = class Post {
   static async findAllPost() {
@@ -9,6 +10,15 @@ module.exports = class Post {
     } catch (error) {
       throw error;
     }
+  }
+
+  static async findPostById(id) {
+    const postCollection = database.collection("Posts");
+    const post = await postCollection.findOne({
+      _id: new ObjectId(id),
+    });
+    console.log(post);
+    return post;
   }
 
   static async createPost(newPost) {
