@@ -1,4 +1,4 @@
-const { ObjectId } = require("bson");
+const { ObjectId } = require("mongodb");
 const { database } = require("../config/mongodb");
 const { hashPass, comparePass } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
@@ -21,6 +21,7 @@ module.exports = class User {
     const user = await usersCollection.findOne({
       _id: new ObjectId(id),
     });
+
     return user;
   }
 
@@ -46,6 +47,8 @@ module.exports = class User {
     const user = await userCollection.findOne({ email: LoginInput.email });
 
     const comparedPass = comparePass(LoginInput.password, user.password);
+
+    if (!comparedPass) throw { message: "Email/Password is invalid" };
 
     const access_token = signToken({
       id: user._id,

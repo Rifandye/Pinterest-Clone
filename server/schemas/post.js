@@ -11,6 +11,14 @@ const typeDefs = `
     likes: [Like]
     createdAt: String
     updatedAt: String
+    authorDetail: AuthorDetail
+  }
+
+  type AuthorDetail {
+    _id: ID
+    name: String
+    username: String
+    email: String
   }
 
   type Comment {

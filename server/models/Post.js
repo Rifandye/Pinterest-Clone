@@ -1,5 +1,5 @@
 const { database } = require("../config/mongodb");
-const { ObjectId } = require("bson");
+const { ObjectId } = require("mongodb");
 
 module.exports = class Post {
   static async findAllPost() {
@@ -17,11 +17,36 @@ module.exports = class Post {
 
   static async findPostById(id) {
     const postCollection = database.collection("Posts");
-    const post = await postCollection.findOne({
-      _id: new ObjectId(id),
-    });
-    console.log(post);
-    return post;
+    const agg = [
+      {
+        $match: {
+          _id: new ObjectId(String(id)),
+        },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "authorId",
+          foreignField: "_id",
+          as: "authorDetail",
+        },
+      },
+      {
+        $unwind: {
+          path: "$authorDetail",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          "authorDetail.password": 0,
+        },
+      },
+    ];
+
+    const post = await postCollection.aggregate(agg).toArray();
+    console.log(post, "<<< ini user agg");
+    return post[0];
   }
 
   static async createPost(newPost) {
