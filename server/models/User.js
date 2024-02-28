@@ -15,14 +15,81 @@ module.exports = class User {
     }
   }
 
-  //! nyoba findById
   static async findById(id) {
     const usersCollection = database.collection("Users");
-    const user = await usersCollection.findOne({
-      _id: new ObjectId(id),
-    });
+    const agg = [
+      {
+        $match: {
+          _id: new ObjectId(String(id)),
+        },
+      },
+      {
+        $lookup: {
+          from: "Follows",
+          localField: "_id",
+          foreignField: "followerId",
+          as: "followingDetail",
+        },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "followingDetail.followingId",
+          foreignField: "_id",
+          as: "followingUser",
+        },
+      },
+      {
+        $lookup: {
+          from: "Follows",
+          localField: "_id",
+          foreignField: "followingId",
+          as: "followerDetail",
+        },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "followerDetail.followerId",
+          foreignField: "_id",
+          as: "followerUser",
+        },
+      },
+      {
+        $project: {
+          followingDetail: 0,
+          followerDetail: 0,
+        },
+      },
+      {
+        $unwind: {
+          path: "$followingUser",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: "$followerUser",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          "followingUser._id": 0,
+          "followingUser.name": 0,
+          "followingUser.email": 0,
+          "followingUser.password": 0,
+          "followerUser._id": 0,
+          "followerUser.name": 0,
+          "followerUser.email": 0,
+          "followerUser.password": 0,
+        },
+      },
+    ];
 
-    return user;
+    const user = await usersCollection.aggregate(agg).toArray();
+    console.log("user", "<<<< ini agg user");
+    return user[0];
   }
 
   static async register(newUser) {

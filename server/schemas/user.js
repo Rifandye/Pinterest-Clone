@@ -6,7 +6,17 @@ const typeDefs = `
     name: String
     username: String
     email: String
-    password: String    
+    password: String
+    followingUser: FollowingUser
+    followerUser: FollowerUser
+  }
+
+  type FollowingUser {
+    username: String
+  }
+
+  type FollowerUser {
+    username: String
   }
 
   type Login {
