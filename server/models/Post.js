@@ -1,6 +1,7 @@
 const { database } = require("../config/mongodb");
 const { ObjectId } = require("mongodb");
 
+
 module.exports = class Post {
   static async findAllPost() {
     try {
@@ -59,6 +60,7 @@ module.exports = class Post {
       const postCollection = database.collection("Posts");
       const result = await postCollection.insertOne(handlePostDate);
 
+      console.log(handlePostDate, "<<< ini handlePostDate");
       console.log(result, "<<< Result post");
       let resultPost = {
         id: result.insertedId,

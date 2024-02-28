@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const redis = require("../config/redis");
 
 const typeDefs = `
   type Post {
@@ -78,8 +79,17 @@ const resolvers = {
       try {
         console.log(contextValue, "<<< context value");
         const user = contextValue.auth();
-        console.log(user, "<<< hasil decode");
+        const postCache = await redis.get("posts:all");
+
+        if (postCache) {
+          console.log("ini dari cache");
+          const postsData = JSON.parse(postCache);
+          return postsData;
+        }
+        // console.log(user, "<<< hasil decode");
+        console.log("ini dari mongodb");
         const posts = await Post.findAllPost();
+        await redis.set("posts:all", JSON.stringify(posts));
         return posts;
       } catch (err) {
         throw err;
@@ -104,6 +114,10 @@ const resolvers = {
         const user = contextValue.auth();
         const newPost = { ...args.newPost, authorId: user.id };
         const post = await Post.createPost(newPost);
+
+        // cache invalidation
+        await redis.del("books:all");
+
         return post;
       } catch (err) {
         throw err;
