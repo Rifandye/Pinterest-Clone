@@ -15,6 +15,20 @@ module.exports = class User {
     }
   }
 
+  static async findByUsername(username) {
+    try {
+      const usersCollection = database.collection("Users");
+      const users = await usersCollection
+        .find({
+          username: { $regex: username, $options: "i" },
+        })
+        .toArray();
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async findById(id) {
     const usersCollection = database.collection("Users");
     const agg = [

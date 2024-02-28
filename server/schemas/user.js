@@ -26,6 +26,7 @@ const typeDefs = `
   type Query {
     users: [User]
     userById(id: ID!): User
+    searchUserByUsername(username: String!): [User]
   }
 
   input LoginInput {
@@ -66,6 +67,16 @@ const resolvers = {
         return user;
       } catch (err) {
         throw err;
+      }
+    },
+    
+    searchUserByUsername: async (_, args) => {
+      try {
+        const { username } = args;
+        const profile = await User.findByUsername(username);
+        return profile;
+      } catch (error) {
+        throw error;
       }
     },
   },
