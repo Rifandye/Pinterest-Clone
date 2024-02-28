@@ -62,18 +62,6 @@ module.exports = class User {
         },
       },
       {
-        $unwind: {
-          path: "$followingUser",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $unwind: {
-          path: "$followerUser",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
         $project: {
           "followingUser._id": 0,
           "followingUser.name": 0,

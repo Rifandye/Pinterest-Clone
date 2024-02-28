@@ -7,8 +7,8 @@ const typeDefs = `
     username: String
     email: String
     password: String
-    followingUser: FollowingUser
-    followerUser: FollowerUser
+    followingUser: [FollowingUser]
+    followerUser: [FollowerUser]
   }
 
   type FollowingUser {
