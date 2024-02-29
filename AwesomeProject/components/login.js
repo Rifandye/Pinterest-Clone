@@ -1,41 +1,26 @@
-import { useState } from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import React from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    console.log("Email:", email, "Password:", password);
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
+      <Image style={styles.image} source={require("../assets/logo.png")} />
+      <BottomSheetTextInput
         placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
-      />
-      <TextInput
+        autoCorrect={false}
         style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
       />
-      <TouchableOpacity onPress={handleLogin} style={styles.button}>
+      <BottomSheetTextInput
+        placeholder="Password"
+        secureTextEntry={true}
+        autoCapitalize="none"
+        autoCorrect={false}
+        style={[styles.input, styles.passwordInput]}
+      />
+      <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
@@ -48,32 +33,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
   },
   input: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "#fff",
-    borderColor: "#ddd",
+    height: 50,
+    width: "80%",
+    marginVertical: 10,
+    paddingHorizontal: 15,
     borderWidth: 1,
-    padding: 10,
+    borderColor: "white",
     borderRadius: 5,
-    marginBottom: 10,
+    backgroundColor: "white",
+    fontSize: 16,
+    color: "black",
   },
   button: {
-    width: "100%",
-    backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 5,
+    width: "80%",
+    height: 50,
+    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "black",
+    borderRadius: 5,
+    marginTop: 20,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
+    color: "#ffffff",
+    fontSize: 18,
+  },
+
+  image: {
+    height: 250,
+    width: 250,
   },
 });

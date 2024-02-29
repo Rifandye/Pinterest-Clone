@@ -1,58 +1,30 @@
-import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleRegister = () => {
-    console.log("Registering", { name, username, email, password });
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
+      <BottomSheetTextInput style={styles.input} placeholder="Name" />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
+      <BottomSheetTextInput style={styles.input} placeholder="Username" />
 
-      <TextInput
+      <BottomSheetTextInput
         style={styles.input}
         placeholder="Email"
         keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
         autoCapitalize="none"
       />
 
-      <TextInput
+      <BottomSheetTextInput
         style={styles.input}
         placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
         secureTextEntry={true}
       />
 
-      <TouchableOpacity onPress={handleRegister} style={styles.button}>
+      <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
     </View>
@@ -65,32 +37,36 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f5f5f5",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    color: "black",
     marginBottom: 20,
   },
   input: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "#fff",
-    borderColor: "#ddd",
+    width: "80%",
+    height: 50,
+    marginVertical: 10,
+    paddingHorizontal: 15,
     borderWidth: 1,
-    padding: 10,
+    borderColor: "black",
     borderRadius: 5,
-    marginBottom: 10,
+    backgroundColor: "white",
+    fontSize: 16,
+    color: "black",
   },
   button: {
-    width: "100%",
-    backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 5,
+    width: "80%",
+    height: 50,
+    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "black",
+    borderRadius: 5,
+    marginTop: 20,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
+    color: "white",
+    fontSize: 18,
   },
 });

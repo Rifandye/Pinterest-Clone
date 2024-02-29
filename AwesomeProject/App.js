@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   bottomSheetBackground: {
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "#808080",
   },
   handleIndicator: {
     backgroundColor: "#fff",
