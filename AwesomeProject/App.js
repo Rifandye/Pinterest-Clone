@@ -13,24 +13,24 @@ import {
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useMemo, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Login from "./components/login";
+import Register from "./components/register";
 
 export default function App() {
   const snapPoints = useMemo(() => ["90%"], []);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
+  const [content, setContent] = useState("");
 
-  const openBottomSheet = () => {
+  const handleButtonPress = (type) => {
+    setContent(type);
     setBottomSheetIndex(0);
-  };
-
-  const closeBottomSheet = () => {
-    setBottomSheetIndex(-1);
   };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <ImageBackground
-          source={require("./assets/Twilight.jpeg")}
+          source={require("./assets/home2.jpeg")}
           resizeMode="cover"
           style={styles.imageBackground}
         >
@@ -39,14 +39,21 @@ export default function App() {
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={openBottomSheet} style={styles.button}>
+            <TouchableOpacity
+              onPress={() => handleButtonPress("login")}
+              style={styles.button}
+            >
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={openBottomSheet} style={styles.button}>
+            <TouchableOpacity
+              onPress={() => handleButtonPress("signup")}
+              style={styles.button}
+            >
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
+
         <BottomSheet
           index={bottomSheetIndex}
           snapPoints={snapPoints}
@@ -54,14 +61,13 @@ export default function App() {
           handleIndicatorStyle={styles.handleIndicator}
           onChange={(index) => {
             if (index === -1) {
-              closeBottomSheet();
+              setBottomSheetIndex(-1);
             }
           }}
           enablePanDownToClose={true}
         >
-          <View style={styles.bottomSheetContent}>
-            <Text>This is awesome</Text>
-          </View>
+          {content === "login" && <Login />}
+          {content === "signup" && <Register />}
         </BottomSheet>
       </View>
     </GestureHandlerRootView>
