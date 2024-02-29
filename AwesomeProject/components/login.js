@@ -2,8 +2,7 @@ import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
-
-export default function Login() {
+export default function Login({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require("../assets/logo.png")} />
@@ -21,7 +20,10 @@ export default function Login() {
         autoCorrect={false}
         style={[styles.input, styles.passwordInput]}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>

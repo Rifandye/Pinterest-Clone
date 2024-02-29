@@ -12,9 +12,8 @@ import { useMemo, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Login from "../components/login";
 import Register from "../components/register";
-import { NavigationContainer } from "@react-navigation/native";
 
-export default function LandingPage() {
+export default function LandingPage({ navigation }) {
   const snapPoints = useMemo(() => ["90%"], []);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
   const [content, setContent] = useState("");
@@ -64,8 +63,8 @@ export default function LandingPage() {
           }}
           enablePanDownToClose={true}
         >
-          {content === "login" && <Login />}
-          {content === "signup" && <Register />}
+          {content === "login" && <Login navigation={navigation} />}
+          {content === "signup" && <Register navigation={navigation} />}
         </BottomSheet>
       </View>
     </GestureHandlerRootView>
