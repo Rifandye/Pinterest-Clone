@@ -2,6 +2,7 @@ import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
+
 export default function Login() {
   return (
     <View style={styles.container}>
