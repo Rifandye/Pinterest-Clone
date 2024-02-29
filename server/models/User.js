@@ -97,6 +97,17 @@ module.exports = class User {
   static async register(newUser) {
     const userCollection = database.collection("Users");
 
+    if (!newUser.email) throw { message: "Email is required" };
+
+    if (!newUser.username) throw { message: "Username is required" };
+
+    if (!newUser.password) throw { message: "Password is required" };
+
+    if (newUser.password.length < 5)
+      throw { message: "Password should be at least 5 character" };
+
+    if (!newUser.name) throw { message: "Name is required" };
+
     const hashedPass = hashPass(newUser.password);
     newUser.password = hashedPass;
 
@@ -114,6 +125,8 @@ module.exports = class User {
     const userCollection = database.collection("Users");
 
     const user = await userCollection.findOne({ email: LoginInput.email });
+
+    if (!user) throw { message: "Account does not exist" };
 
     const comparedPass = comparePass(LoginInput.password, user.password);
 
