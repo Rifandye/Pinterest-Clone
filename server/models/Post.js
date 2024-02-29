@@ -1,7 +1,6 @@
 const { database } = require("../config/mongodb");
 const { ObjectId } = require("mongodb");
 
-
 module.exports = class Post {
   static async findAllPost() {
     try {
@@ -108,6 +107,23 @@ module.exports = class Post {
       };
 
       const postCollection = database.collection("Posts");
+
+      const validate = await postCollection.findOne({
+        _id: new ObjectId(postId),
+      });
+
+      if (!validate.likes) {
+        validate.likes = [];
+      }
+
+      const hadLiked = validate.likes
+        .map((el) => el.username)
+        .includes(newLike.username);
+      console.log(hadLiked);
+
+      if (hadLiked) throw new Error("You already like this post");
+
+      console.log(validate, "<<<< ini validate");
 
       const result = await postCollection.updateOne(
         { _id: new ObjectId(postId) },

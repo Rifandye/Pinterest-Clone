@@ -69,7 +69,7 @@ const resolvers = {
         throw err;
       }
     },
-    
+
     searchUserByUsername: async (_, args) => {
       try {
         const { username } = args;
