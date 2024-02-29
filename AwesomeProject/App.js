@@ -11,11 +11,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
-  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+  const snapPoints = useMemo(() => ["90%"], []);
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
+
+  const openBottomSheet = () => {
+    setBottomSheetIndex(0);
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetIndex(-1);
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -30,24 +39,25 @@ export default function App() {
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => console.log("Login Pressed")}
-              style={styles.button}
-            >
+            <TouchableOpacity onPress={openBottomSheet} style={styles.button}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => console.log("Sign Up Pressed")}
-              style={styles.button}
-            >
+            <TouchableOpacity onPress={openBottomSheet} style={styles.button}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
         <BottomSheet
+          index={bottomSheetIndex}
           snapPoints={snapPoints}
           backgroundStyle={styles.bottomSheetBackground}
           handleIndicatorStyle={styles.handleIndicator}
+          onChange={(index) => {
+            if (index === -1) {
+              closeBottomSheet();
+            }
+          }}
+          enablePanDownToClose={true}
         >
           <View style={styles.bottomSheetContent}>
             <Text>This is awesome</Text>
