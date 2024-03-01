@@ -2,21 +2,17 @@
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LandingPage from "./screens/LandingPage";
-import Home from "./screens/Home";
+import { ApolloProvider } from "@apollo/client";
+import client from "./config/appolo";
+import StackNavigator from "./navigators/StackNavigator";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing">
-        <Stack.Screen
-          name="Landing"
-          component={LandingPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
