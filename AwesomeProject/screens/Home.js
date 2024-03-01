@@ -13,6 +13,7 @@ const GET_POSTS = gql`
   query Query {
     posts {
       imgUrl
+      _id
     }
   }
 `;
@@ -38,7 +39,7 @@ export default function Home() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.cardContainer}>
         {data?.posts.map((post, index) => (
-          <Card key={index} imgUrl={post.imgUrl} />
+          <Card key={index} imgUrl={post.imgUrl} _id={post._id} />
         ))}
       </View>
     </ScrollView>

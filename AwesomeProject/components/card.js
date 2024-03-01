@@ -1,15 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, StyleSheet, ScrollView, Pressable, View } from "react-native";
+import { Image, StyleSheet, View, TouchableHighlight } from "react-native";
 
-export default function Card({ imgUrl }) {
-  const onPressCard = () => {
-    console.log("Card Pressed!");
-  };
-
+export default function Card({ imgUrl, _id }) {
+  const navigation = useNavigation();
   return (
     <View style={styles.card}>
-      <Pressable
-        onPress={onPressCard}
+      <TouchableHighlight
+        onPress={() => {
+          console.log("Pressed!");
+          navigation.navigate("Post", {
+            _id: _id,
+          });
+        }}
         style={({ pressed }) => [
           styles.imageContainer,
           pressed ? styles.pressed : {},
@@ -20,7 +23,7 @@ export default function Card({ imgUrl }) {
           style={styles.image}
           resizeMode="cover"
         />
-      </Pressable>
+      </TouchableHighlight>
     </View>
   );
 }
