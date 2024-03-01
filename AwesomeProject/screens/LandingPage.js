@@ -14,7 +14,7 @@ import Login from "../components/login";
 import Register from "../components/register";
 
 export default function LandingPage({ navigation }) {
-  const snapPoints = useMemo(() => ["90%"], []);
+  const snapPoints = useMemo(() => ["90%"], []); //dapat di adjust untuk ngatur si bottom screen
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
   const [content, setContent] = useState("");
 
