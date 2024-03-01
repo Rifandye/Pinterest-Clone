@@ -116,7 +116,7 @@ const resolvers = {
         const post = await Post.createPost(newPost);
 
         // cache invalidation
-        await redis.del("books:all");
+        await redis.del("posts:all");
 
         return post;
       } catch (err) {

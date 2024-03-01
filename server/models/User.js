@@ -90,7 +90,7 @@ module.exports = class User {
     ];
 
     const user = await usersCollection.aggregate(agg).toArray();
-    console.log("user", "<<<< ini agg user");
+    console.log(user, "<<<< ini agg user");
     return user[0];
   }
 
