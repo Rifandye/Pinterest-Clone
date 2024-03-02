@@ -106,7 +106,6 @@ export default function Post({ route }) {
         enablePanDownToClose={true}
       >
         <BottomSheetView>
-          {/* Content of your bottom sheet goes here */}
           <Text>Review Content</Text>
         </BottomSheetView>
       </BottomSheet>
@@ -147,12 +146,12 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     marginTop: 45,
-    backgroundColor: "black", // Example blue color
+    backgroundColor: "black",
     padding: 15,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 20, // Add some margin to the sides
+    marginHorizontal: 20,
   },
   reviewButtonText: {
     color: "#ffffff",

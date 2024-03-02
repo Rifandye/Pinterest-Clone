@@ -1,6 +1,13 @@
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { useQuery, gql, useMutation } from "@apollo/client";
 
 const LOGIN = gql`
@@ -14,7 +21,7 @@ const LOGIN = gql`
 export default function Login({ navigation, route }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [handleLogin, { data, loading, error }] = useMutation(LOGIN);
+  const [handleLogin] = useMutation(LOGIN);
 
   async function handleSubmit() {
     try {
@@ -27,9 +34,11 @@ export default function Login({ navigation, route }) {
           },
         },
       });
+      Alert.alert("Login Success");
       console.log(result);
       navigation.navigate("Home");
     } catch (error) {
+      Alert.alert(error.message);
       console.log(error);
     }
   }

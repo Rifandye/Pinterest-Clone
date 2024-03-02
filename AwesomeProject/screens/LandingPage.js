@@ -23,6 +23,11 @@ export default function LandingPage({ navigation }) {
     setBottomSheetIndex(3);
   };
 
+  const handleRegistrationSuccess = () => {
+    setContent("login");
+    setBottomSheetIndex(3);
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -64,7 +69,12 @@ export default function LandingPage({ navigation }) {
           enablePanDownToClose={true}
         >
           {content === "login" && <Login navigation={navigation} />}
-          {content === "signup" && <Register navigation={navigation} />}
+          {content === "signup" && (
+            <Register
+              navigation={navigation}
+              onRegistrationSuccess={handleRegistrationSuccess}
+            />
+          )}
         </BottomSheet>
       </View>
     </GestureHandlerRootView>
