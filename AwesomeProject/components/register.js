@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { useQuery, gql, useMutation } from "@apollo/client";

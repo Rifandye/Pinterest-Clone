@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StyleSheet,
   View,
@@ -9,7 +8,7 @@ import {
 import Card from "../components/card";
 import { useQuery, gql } from "@apollo/client";
 
-const GET_POSTS = gql`
+export const GET_POSTS = gql`
   query Query {
     posts {
       imgUrl
@@ -55,5 +54,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "flex-start",
+  },
+  bottomSheetBackground: {
+    backgroundColor: "#808080",
   },
 });
