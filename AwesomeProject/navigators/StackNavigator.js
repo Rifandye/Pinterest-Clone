@@ -4,6 +4,7 @@ import Home from "../screens/Home";
 import Post from "../screens/Post";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import TabNavigator from "./TabNavigator";
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator();
@@ -13,7 +14,11 @@ export default function StackNavigator() {
     <Stack.Navigator initialRouteName="Landing">
       {isSignedIn ? (
         <>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Home"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="Post" component={Post} />
         </>
       ) : (
