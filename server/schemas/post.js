@@ -96,9 +96,10 @@ const resolvers = {
       }
     },
 
-    postById: async (_, args) => {
+    postById: async (_, args, contextValue) => {
       try {
         const { id } = args;
+        const user = contextValue.auth();
         console.log(id);
         const post = await Post.findPostById(id);
         return post;
@@ -130,6 +131,8 @@ const resolvers = {
         const newComment = { ...args.newComment, username: user.username };
 
         const comment = await Post.addComment(newComment);
+
+        await redis.del("posts:all");
         return comment;
       } catch (err) {
         throw err;
@@ -142,6 +145,9 @@ const resolvers = {
         const newLike = { ...args.newLike, username: user.username };
 
         const like = await Post.addLike(newLike);
+
+        await redis.del("posts:all");
+
         return like;
       } catch (err) {
         throw err;

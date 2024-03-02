@@ -6,7 +6,6 @@ const typeDefs = `
     name: String
     username: String
     email: String
-    password: String
     followingUser: [FollowingUser]
     followerUser: [FollowerUser]
   }
@@ -50,8 +49,9 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    users: async () => {
+    users: async (_, __, contextValue) => {
       try {
+        const user = contextValue.auth();
         const users = await User.findAll();
         return users;
       } catch (err) {
