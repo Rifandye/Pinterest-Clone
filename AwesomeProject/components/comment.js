@@ -41,7 +41,9 @@ const ADD_COMMENT = gql`
 export default function Comment({ _id }) {
   const [content, setContent] = useState("");
 
-  const [handleComment] = useMutation(ADD_COMMENT);
+  const [handleComment] = useMutation(ADD_COMMENT, {
+    refetchQueries: [GET_COMMENT_BY_ID],
+  });
 
   async function handleSubmit() {
     try {
