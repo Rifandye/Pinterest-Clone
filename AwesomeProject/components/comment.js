@@ -3,12 +3,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ActivityIndicator,
   Image,
   ScrollView,
   Alert,
   TextInput,
-  Button,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { formatDistanceToNow } from "date-fns";
@@ -64,47 +64,42 @@ export default function Comment({ _id }) {
   });
   console.log({ loading, error, data });
 
-  if (loading)
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  if (error)
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Error: {error.message}</Text>
-      </View>
-    );
-
-  if (!data?.postById.comments || data.postById.comments.length === 0) {
-    return (
-      <View style={styles.centeredView}>
-        <Text>No comments yet.</Text>
-      </View>
-    );
-  }
-
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Comments</Text>
-      {data?.postById.comments.map((comment, index) => (
-        <View key={index} style={styles.commentContainer}>
-          <Image
-            style={styles.image}
-            source={require("../assets/mockup.jpeg")}
-          />
-          <View style={styles.textContainer}>
-            <Text style={styles.username}>{comment.username}</Text>
-            <Text style={styles.content}>{comment.content}</Text>
-            <Text style={styles.timestamp}>
-              {formatDistanceToNow(new Date(parseInt(comment.createdAt, 10)), {
-                addSuffix: true,
-              })}
-            </Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 124 : 0}
+      enabled
+    >
+      <ScrollView style={styles.commentsContainer}>
+        <Text style={styles.header}>Comments</Text>
+        {data?.postById?.comments && data.postById.comments.length > 0 ? (
+          data.postById.comments.map((comment, index) => (
+            <View key={index} style={styles.commentContainer}>
+              <Image
+                style={styles.image}
+                source={require("../assets/mockup.jpeg")}
+              />
+              <View style={styles.textContainer}>
+                <Text style={styles.username}>{comment.username}</Text>
+                <Text style={styles.content}>{comment.content}</Text>
+                <Text style={styles.timestamp}>
+                  {formatDistanceToNow(
+                    new Date(parseInt(comment.createdAt, 10)),
+                    {
+                      addSuffix: true,
+                    }
+                  )}
+                </Text>
+              </View>
+            </View>
+          ))
+        ) : (
+          <View style={styles.centeredView}>
+            <Text>No comments yet.</Text>
           </View>
-        </View>
-      ))}
+        )}
+      </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -116,17 +111,15 @@ export default function Comment({ _id }) {
           <MaterialCommunityIcons name="send" size={24} color="#1E90FF" />
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   container: {
+    flex: 1,
+  },
+  commentsContainer: {
     flex: 1,
     padding: 10,
   },
@@ -137,7 +130,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   commentContainer: {
+    flexDirection: "row",
     marginBottom: 20,
+    alignItems: "center",
   },
   username: {
     fontWeight: "bold",
@@ -157,11 +152,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginBottom: 10,
   },
-  commentContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-    alignItems: "center",
-  },
   textContainer: {
     flex: 1,
     marginLeft: 10,
@@ -170,7 +160,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 12,
+    padding: 12,
+    borderTopWidth: 1,
+    borderColor: "#ddd",
+    paddingBottom: 50,
   },
   input: {
     height: 40,

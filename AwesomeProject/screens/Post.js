@@ -65,7 +65,7 @@ export default function Post({ route }) {
 
   const handleReviewPress = () => {
     console.log("Review Button Pressed!");
-    setBottomSheetIndex(0);
+    setBottomSheetIndex(3);
   };
 
   return (
