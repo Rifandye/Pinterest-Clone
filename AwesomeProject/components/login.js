@@ -1,5 +1,5 @@
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,6 +9,8 @@ import {
   Alert,
 } from "react-native";
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { AuthContext } from "../context/AuthContext";
+import * as SecureStore from "expo-secure-store";
 
 const LOGIN = gql`
   mutation Mutation($inputLogin: LoginInput) {
@@ -23,9 +25,10 @@ export default function Login({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [handleLogin] = useMutation(LOGIN);
 
+  const { setIsSignedIn } = useContext(AuthContext);
+
   async function handleSubmit() {
     try {
-      console.log("submit been pressed");
       const result = await handleLogin({
         variables: {
           inputLogin: {
@@ -34,9 +37,9 @@ export default function Login({ navigation, route }) {
           },
         },
       });
+      await SecureStore.setItemAsync("access_token", result.data.login.access_token);
       Alert.alert("Login Success");
-      console.log(result);
-      navigation.navigate("Home");
+      setIsSignedIn(true);
     } catch (error) {
       Alert.alert(error.message);
       console.log(error);

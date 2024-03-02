@@ -11,7 +11,7 @@ import { useQuery, gql } from "@apollo/client";
 import Icon from "react-native-vector-icons/AntDesign";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useMemo, useState } from "react";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import Comment from "../components/comment";
 
 const GET_POSTS_BYID = gql`
@@ -32,6 +32,14 @@ const GET_POSTS_BYID = gql`
       authorDetail {
         username
       }
+    }
+  }
+`;
+
+const LIKE_POST_BYID = gql`
+  mutation Mutation($newLike: NewLike) {
+    addLike(newLike: $newLike) {
+      username
     }
   }
 `;
