@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import Icon from "react-native-vector-icons/AntDesign";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useMemo, useState } from "react";
@@ -48,8 +48,26 @@ export default function Post({ route }) {
   const snapPoints = useMemo(() => ["25%", "50%", "75%", "100%"], []);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
 
+  const [handleLike] = useMutation(LIKE_POST_BYID, {
+    refetchQueries: [GET_POSTS_BYID],
+  });
+
   const { _id } = route.params;
   console.log(_id);
+
+  async function handleClickedLike() {
+    try {
+      const result = await handleLike({
+        variables: {
+          newLike: {
+            postId: _id,
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const { loading, error, data } = useQuery(GET_POSTS_BYID, {
     variables: { postByIdId: _id },
@@ -83,7 +101,10 @@ export default function Post({ route }) {
           <Image source={{ uri: imgUrl }} style={styles.image}></Image>
         </View>
         <View style={styles.likesContainer}>
-          <TouchableOpacity style={styles.heartButton}>
+          <TouchableOpacity
+            style={styles.heartButton}
+            onPress={handleClickedLike}
+          >
             <Icon name="hearto" size={28} color="black" />
           </TouchableOpacity>
           {likes?.length > 0 && (
