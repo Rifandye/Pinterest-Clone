@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useMemo, useState } from "react";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import Comment from "../components/comment";
 
 const GET_POSTS_BYID = gql`
   query PostById($postByIdId: ID!) {
@@ -105,9 +106,7 @@ export default function Post({ route }) {
         handleIndicatorStyle={styles.handleIndicator}
         enablePanDownToClose={true}
       >
-        <BottomSheetView>
-          <Text>Review Content</Text>
-        </BottomSheetView>
+        <Comment _id={_id} />
       </BottomSheet>
     </GestureHandlerRootView>
   );
