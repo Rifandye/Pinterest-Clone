@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
   Image,
@@ -10,6 +9,9 @@ import {
 } from "react-native";
 import { useQuery, gql } from "@apollo/client";
 import Icon from "react-native-vector-icons/AntDesign";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useMemo, useState } from "react";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const GET_POSTS_BYID = gql`
   query PostById($postByIdId: ID!) {
@@ -34,6 +36,9 @@ const GET_POSTS_BYID = gql`
 `;
 
 export default function Post({ route }) {
+  const snapPoints = useMemo(() => ["25%", "50%", "75%", "100%"], []);
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
+
   const { _id } = route.params;
   console.log(_id);
 
@@ -59,33 +64,53 @@ export default function Post({ route }) {
 
   const handleReviewPress = () => {
     console.log("Review Button Pressed!");
+    setBottomSheetIndex(0);
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: imgUrl }} style={styles.image}></Image>
-      </View>
-      <View style={styles.likesContainer}>
-        <TouchableOpacity style={styles.heartButton}>
-          <Icon name="hearto" size={28} color="black" />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: imgUrl }} style={styles.image}></Image>
+        </View>
+        <View style={styles.likesContainer}>
+          <TouchableOpacity style={styles.heartButton}>
+            <Icon name="hearto" size={28} color="black" />
+          </TouchableOpacity>
+          {likes?.length > 0 && (
+            <>
+              <Text style={styles.likesText}>{likes.length} Likes</Text>
+              <Text style={styles.likeUsername}> by {likes[0].username}</Text>
+            </>
+          )}
+        </View>
+        <View style={styles.information}>
+          <Text>Uploaded by: {authorDetail.username}</Text>
+          <Text style={{ marginTop: 20 }}>Desciption:</Text>
+          <Text>{content}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.reviewButton}
+          onPress={handleReviewPress}
+        >
+          <Text style={styles.reviewButtonText}>Give this photo a review</Text>
         </TouchableOpacity>
-        {likes?.length > 0 && (
-          <>
-            <Text style={styles.likesText}>{likes.length} Likes</Text>
-            <Text style={styles.likeUsername}> by {likes[0].username}</Text>
-          </>
-        )}
-      </View>
-      <View style={styles.information}>
-        <Text>Uploaded by: {authorDetail.username}</Text>
-        <Text style={{ marginTop: 20 }}>Desciption:</Text>
-        <Text>{content}</Text>
-      </View>
-      <TouchableOpacity style={styles.reviewButton} onPress={handleReviewPress}>
-        <Text style={styles.reviewButtonText}>Give this photo a review</Text>
-      </TouchableOpacity>
-    </ScrollView>
+      </ScrollView>
+
+      <BottomSheet
+        index={bottomSheetIndex}
+        snapPoints={snapPoints}
+        onChange={setBottomSheetIndex}
+        backgroundStyle={styles.bottomSheetBackground}
+        handleIndicatorStyle={styles.handleIndicator}
+        enablePanDownToClose={true}
+      >
+        <BottomSheetView>
+          {/* Content of your bottom sheet goes here */}
+          <Text>Review Content</Text>
+        </BottomSheetView>
+      </BottomSheet>
+    </GestureHandlerRootView>
   );
 }
 
@@ -108,29 +133,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    paddingLeft: 20, // Align content to the left with some padding
+    paddingLeft: 20,
   },
   heartButton: {
-    marginRight: 15, // Add some space between the heart icon and the text
+    marginRight: 15,
   },
   likesText: {},
   likeUsername: {},
   information: {
-    alignItems: "flex-start", // Align text to the left
-    paddingLeft: 20, // Align content to the left with some padding
+    alignItems: "flex-start",
+    paddingLeft: 20,
     gap: 15,
   },
   reviewButton: {
-    marginTop: 20,
-    backgroundColor: "#007bff", // Example blue color
+    marginTop: 45,
+    backgroundColor: "black", // Example blue color
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 20, // Add some margin to the sides
   },
   reviewButtonText: {
-    color: "#ffffff", // White text color
+    color: "#ffffff",
     fontSize: 16,
+  },
+  bottomSheetBackground: {
+    backgroundColor: "#808080",
+  },
+  handleIndicator: {
+    backgroundColor: "#fff",
   },
 });
