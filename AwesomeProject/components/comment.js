@@ -6,9 +6,14 @@ import {
   ActivityIndicator,
   Image,
   ScrollView,
+  Alert,
+  TextInput,
+  Button,
 } from "react-native";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { formatDistanceToNow } from "date-fns";
+import { useState } from "react";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const GET_COMMENT_BY_ID = gql`
   query Query($postByIdId: ID!) {
@@ -23,7 +28,37 @@ const GET_COMMENT_BY_ID = gql`
   }
 `;
 
+const ADD_COMMENT = gql`
+  mutation Mutation($newComment: NewComment) {
+    addComment(newComment: $newComment) {
+      content
+      username
+      createdAt
+    }
+  }
+`;
+
 export default function Comment({ _id }) {
+  const [content, setContent] = useState("");
+
+  const [handleComment] = useMutation(ADD_COMMENT);
+
+  async function handleSubmit() {
+    try {
+      const result = await handleComment({
+        variables: {
+          newComment: {
+            content: content,
+            postId: _id,
+          },
+        },
+      });
+      setContent("");
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  }
+
   const { loading, error, data } = useQuery(GET_COMMENT_BY_ID, {
     variables: { postByIdId: _id },
   });
@@ -42,10 +77,18 @@ export default function Comment({ _id }) {
       </View>
     );
 
+  if (!data?.postById.comments || data.postById.comments.length === 0) {
+    return (
+      <View style={styles.centeredView}>
+        <Text>No comments yet.</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Comments</Text>
-      {data.postById.comments.map((comment, index) => (
+      {data?.postById.comments.map((comment, index) => (
         <View key={index} style={styles.commentContainer}>
           <Image
             style={styles.image}
@@ -62,6 +105,17 @@ export default function Comment({ _id }) {
           </View>
         </View>
       ))}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setContent}
+          value={content}
+          placeholder="Write a comment..."
+        />
+        <TouchableOpacity onPress={handleSubmit}>
+          <MaterialCommunityIcons name="send" size={24} color="#1E90FF" />
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -111,5 +165,19 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     marginLeft: 10,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    margin: 12,
+  },
+  input: {
+    height: 40,
+    flex: 1,
+    marginRight: 8,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
   },
 });
