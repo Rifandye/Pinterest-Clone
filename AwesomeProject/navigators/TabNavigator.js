@@ -8,7 +8,22 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: "#000",
+        },
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "gray",
+        headerStyle: {
+          backgroundColor: "#000",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    >
       <Tab.Screen
         name="HomeTab"
         component={Home}
@@ -20,7 +35,7 @@ export default function TabNavigator() {
               }}
               style={{ marginRight: 15 }}
             >
-              <Icon name="add" size={30} color="#000" />
+              <Icon name="add" size={30} color="white" />
             </TouchableOpacity>
           ),
         })}

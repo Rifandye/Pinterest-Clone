@@ -1,5 +1,5 @@
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -37,7 +37,10 @@ export default function Login({ navigation, route }) {
           },
         },
       });
-      await SecureStore.setItemAsync("access_token", result.data.login.access_token);
+      await SecureStore.setItemAsync(
+        "access_token",
+        result.data.login.access_token
+      );
       Alert.alert("Login Success");
       setIsSignedIn(true);
     } catch (error) {

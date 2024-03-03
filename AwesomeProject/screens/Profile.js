@@ -17,7 +17,6 @@ export default function Profile() {
 
   return (
     <View>
-      <Text> Ini Profile untuk keperluan logout</Text>
       <Button
         title="Logout"
         onPress={() => {

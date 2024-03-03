@@ -119,14 +119,10 @@ export default function Post({ route }) {
           <Text style={{ marginTop: 20 }}>Desciption:</Text>
           <Text>{content}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.reviewButton}
-          onPress={handleReviewPress}
-        >
-          <Text style={styles.reviewButtonText}>Give this photo a review</Text>
-        </TouchableOpacity>
       </ScrollView>
-
+      <TouchableOpacity style={styles.reviewButton} onPress={handleReviewPress}>
+        <Text style={styles.reviewButtonText}>Give this photo a review</Text>
+      </TouchableOpacity>
       <BottomSheet
         index={bottomSheetIndex}
         snapPoints={snapPoints}
@@ -173,13 +169,13 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   reviewButton: {
-    marginTop: 45,
     backgroundColor: "black",
     padding: 15,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 20,
+    marginBottom: 10,
   },
   reviewButtonText: {
     color: "#ffffff",

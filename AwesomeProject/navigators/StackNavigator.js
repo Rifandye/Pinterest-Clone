@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import TabNavigator from "./TabNavigator";
 import AddPost from "../screens/AddPost";
+import UserById from "../screens/UserById";
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ export default function StackNavigator() {
           />
           <Stack.Screen name="Post" component={Post} />
           <Stack.Screen name="AddPost" component={AddPost} />
+          <Stack.Screen name="UserById" component={UserById} />
         </>
       ) : (
         <>
