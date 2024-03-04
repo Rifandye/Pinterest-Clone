@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: "https://d60b-2001-448a-3051-b6c-253e-a120-cda9-80f0.ngrok-free.app/",
+  uri: "https://server.pinterest-clone.cloud/",
 });
 
 const authLink = setContext(async (_, { headers }) => {
