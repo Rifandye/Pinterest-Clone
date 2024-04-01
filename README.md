@@ -4,10 +4,9 @@ This project aimed to replicate the core functionalities of Pinterest, focusing 
 
 ## Features
 
-- **Discover Creative Ideas**: Users can explore a wide range of creative ideas shared by others.
-- **Save Favorites**: Users have the ability to save their favorite ideas for later reference.
-- **Real-time Updates**: Enjoy real-time updates and interactions thanks to the integration of Apollo GraphQL.
-- **Responsive Design**: The application provides a smooth and responsive experience across various devices.
+- **Like and Share**: Users can like Pins and share them with their followers, increasing engagement and visibility.
+- **Post and Comment**: Share your own ideas by posting Pins and engage with others through comments.
+- **Follow Users**: Stay connected with friends and influencers by following their profiles and staying updated on their latest Pins.
 
 ## Technologies Used
 
