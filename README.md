@@ -1,23 +1,24 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=14028143&assignment_repo_type=AssignmentRepo)
-# GC01
+# Pinterest Clone
 
-## My Social Media App
+This project aimed to replicate the core functionalities of Pinterest, focusing on providing users with an immersive experience in discovering and saving creative ideas. Utilizing React Native alongside Apollo GraphQL, the application offered seamless, real-time data interactions, making it highly responsive and user-friendly.
 
-My Social Media App adalah sebuah aplikasi client(mobile)-server. Challenge ini juga merupakan salah satu aplikasi mobile pertama dan terakhir kamu, jadi kerjakan dengan baik sebagai bekal portofolio kamu. Pada challenge ini, kamu diminta untuk membuat aplikasi client(mobile)-server dengan detail sebagai berikut:
+## Features
 
-### Struktur Folder
-- [ ] server: untuk menyimpan aplikasi server GraphQL kamu 
-- [ ] app: untuk menyimpan aplikasi mobile React Native kamu
+- **Discover Creative Ideas**: Users can explore a wide range of creative ideas shared by others.
+- **Save Favorites**: Users have the ability to save their favorite ideas for later reference.
+- **Real-time Updates**: Enjoy real-time updates and interactions thanks to the integration of Apollo GraphQL.
+- **Responsive Design**: The application provides a smooth and responsive experience across various devices.
 
+## Technologies Used
 
-### Fitur
-- [ ] Fitur Register
-- [ ] Fitur Login
-- [ ] FItur Add Post
-- [ ] Fitur Show Post (berdasarkan yang paling baru)
-- [ ] Fitur Comment Post (Embedded Document)
-- [ ] Fitur search user berdasarkan nama atau username
-- [ ] Fitur follow
-- [ ] Menampilkan Followers dan Following dari setiap user (Reference with $lookup)
-- [ ] Fitur Like Post
-- [ ] Menampilkan total like dari setiap post
+- **JavaScript**: The primary language used for development.
+- **React Native**: Framework used for building the mobile application.
+- **Apollo GraphQL**: Implemented for managing data interactions.
+- **MongoDB**: Database used for storing application data.
+- **Expo**: Development platform used for building React Native applications.
+
+## Contact
+
+For any inquiries or feedback, feel free to contact me at [rilfransyah@gmail.com](mailto:rilfransyah@gmail.com).
+
+---
